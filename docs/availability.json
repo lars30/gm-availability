@@ -1,0 +1,29 @@
+{
+  "generatedAt": "2026-08-26T23:42:28.440Z",
+  "listings": {
+    "dnd2024": {
+      "ref": "dnd2024",
+      "title": "The Keep on the Cauldronlands",
+      "url": "https://startplaying.games/adventure/cmqpuqj2w001dl8040nqe24ow?slug=larrydotorg",
+      "seatsFilled": 0,
+      "seatsTotal": 5,
+      "hasOpenSeats": true
+    },
+    "lotr": {
+      "ref": "lotr",
+      "title": "Suspicious Mines",
+      "url": "https://startplaying.games/adventure/cmqpunbf30019lc04evv2i9i6?slug=larrydotorg",
+      "seatsFilled": 2,
+      "seatsTotal": 6,
+      "hasOpenSeats": true
+    },
+    "pirateborg": {
+      "ref": "pirateborg",
+      "title": "Ash and Anchors",
+      "url": "https://startplaying.games/adventure/cmtaodf77003ijr04iqe7yoyy?slug=larrydotorg",
+      "seatsFilled": 0,
+      "seatsTotal": 5,
+      "hasOpenSeats": true
+    }
+  }
+}
