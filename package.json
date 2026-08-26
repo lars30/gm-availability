@@ -1,0 +1,9 @@
+{
+  "name": "gm-availability-checker",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Scheduled scraper that checks StartPlaying seat availability for Off the Map Games listings",
+  "scripts": {
+    "check": "node scrape.js"
+  }
+}
