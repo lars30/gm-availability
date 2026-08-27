@@ -3,6 +3,10 @@
 Checks seat availability on your StartPlaying listings every 6 hours and
 publishes the result as a public JSON file your results page can fetch.
 
+**Live at:** `https://lars30.github.io/gm-availability/availability.json`
+— this is already set up and running; the steps below are for reference
+if you ever need to rebuild it or set up something similar elsewhere.
+
 ## One-time setup
 
 1. **Create a new GitHub repo** (public — GitHub Pages on the free tier
@@ -66,11 +70,31 @@ Edit the `LISTINGS` object at the top of `scrape.js`, add the new entry,
 commit and push. The next scheduled run (or a manual "Run workflow" click)
 will pick it up.
 
+## Failure notifications
+
+If a listing fails to parse — StartPlaying returns an HTTP error, or
+changes their page markup so the seat-count pattern no longer matches —
+`scrape.js` deliberately exits with an error code instead of quietly
+succeeding. This marks the GitHub Actions run as failed (red X), which
+triggers GitHub's built-in email notification (sent to whoever created
+the workflow — check **Settings → Notifications → Actions** on your
+GitHub account to confirm this is turned on and set to email).
+
+Importantly, `docs/availability.json` still gets committed even when the
+run is marked failed — the commit step is configured to run regardless
+(`if: always()` in the workflow file), so any listings that *did* parse
+successfully still update. Only the listings that failed keep their
+`error` field and `null` values from the last successful check, letting
+`results-page.html` fall back gracefully (it only shows a seat-count
+line when `hasOpenSeats` is an actual boolean, not `null`).
+
 ## If the seat count stops updating
 
-Check the Actions tab for a red X. Click into the failed run to see the
-log — the most likely cause is StartPlaying changing their page markup,
-which would break the regex pattern in `scrape.js`. If that happens, the
-script logs a warning per listing rather than crashing, and the results
-page's fallback logic (see below) keeps working using the last-known data
-or the static fallback link.
+Check the Actions tab for a red X — as of the failure-notification setup
+above, this should now also show up as an email. Click into the failed
+run and expand the "Run scraper" step's log; it prints exactly which
+listing(s) failed and why (`HTTP 404`, `pattern not found`, etc.).
+"Pattern not found" almost always means StartPlaying changed their page
+markup, which would require updating the `SEATS_PATTERN` regex in
+`scrape.js` to match their new structure — inspect the live listing
+page's source to see what changed.
