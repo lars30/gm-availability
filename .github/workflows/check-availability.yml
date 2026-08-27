@@ -1,11 +1,9 @@
 name: Check StartPlaying Availability
 
 on:
+  # Runs automatically every 6 hours
   schedule:
-    # Every 15 minutes, 6am-6pm Phoenix time (13:00-01:00 UTC, no DST in AZ)
-    - cron: '*/15 0,13-23 * * *'
-    # Hourly the rest of the day
-    - cron: '0 1-12 * * *'
+    - cron: '0 */6 * * *'
   # Lets you trigger it manually from the Actions tab in GitHub, useful for testing
   workflow_dispatch:
 
@@ -29,6 +27,10 @@ jobs:
         run: node scrape.js
 
       - name: Commit updated availability.json
+        # Runs even if the previous step failed (partial data still gets
+        # saved), while the overall run still shows as failed — which is
+        # what triggers your GitHub email notification.
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
