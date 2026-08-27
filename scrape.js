@@ -88,6 +88,20 @@ async function main() {
   await writeFile('docs/availability.json', JSON.stringify(output, null, 2));
   console.log('Wrote docs/availability.json');
   console.log(JSON.stringify(output, null, 2));
+
+  // If any listing failed to parse (HTTP error, or StartPlaying changed
+  // their markup so the seat-count pattern no longer matches), fail this
+  // run on purpose. The file above still gets written with whatever DID
+  // parse successfully — this exit code only controls whether GitHub
+  // marks the run as failed, which is what triggers the email
+  // notification you've already got configured on your GitHub account.
+  const failedListings = Object.values(results).filter((r) => r.error);
+  if (failedListings.length > 0) {
+    console.error(`\n${failedListings.length} listing(s) failed to parse:`);
+    failedListings.forEach((r) => console.error(`  - ${r.ref} (${r.title}): ${r.error}`));
+    console.error('\nExiting with an error code so this run is marked failed and you get notified.');
+    process.exitCode = 1;
+  }
 }
 
 main().catch((err) => {
