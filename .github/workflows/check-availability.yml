@@ -1,9 +1,11 @@
 name: Check StartPlaying Availability
 
 on:
-  # Runs automatically every 6 hours
   schedule:
-    - cron: '0 */6 * * *'
+    # Every 15 minutes, 6am-6pm Phoenix time (13:00-01:00 UTC, no DST in AZ)
+    - cron: '*/15 0,13-23 * * *'
+    # Hourly the rest of the day
+    - cron: '0 1-12 * * *'
   # Lets you trigger it manually from the Actions tab in GitHub, useful for testing
   workflow_dispatch:
 
