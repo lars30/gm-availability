@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-28T18:05:01.978Z",
+  "generatedAt": "2026-09-29T00:09:53.400Z",
   "listings": {
     "dnd2024": {
       "ref": "dnd2024",
@@ -13,7 +13,7 @@
       "ref": "lotr",
       "title": "Suspicious Mines",
       "url": "https://startplaying.games/adventure/cmqpunbf30019lc04evv2i9i6?slug=larrydotorg",
-      "seatsFilled": 3,
+      "seatsFilled": 2,
       "seatsTotal": 6,
       "hasOpenSeats": true
     },
