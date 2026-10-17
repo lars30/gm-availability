@@ -56,7 +56,12 @@ export const LISTINGS = {
 const SEATS_PATTERN = /(\d+)\s*\/\s*(\d+)\s*Seats Filled/i;
 
 // Matches text like "Weekly / Monday - 5:00 PM UTC" in the rendered page.
-const SCHEDULE_PATTERN = /((?:Weekly|Biweekly|Monthly)\s*\/\s*\w+day\s*-\s*\d{1,2}:\d{2}\s*[AP]M\s*\w+)/i;
+// Accepts frequency variants seen on StartPlaying, including:
+// - Weekly
+// - Biweekly / Bi-Weekly / Bi Weekly
+// - Every Other Week / Every other week
+// - Monthly
+const SCHEDULE_PATTERN = /((?:Weekly|Bi\s*-?\s*Weekly|Biweekly|Every\s+Other\s+Week|Monthly)\s*\/\s*\w+day\s*-\s*\d{1,2}:\d{2}\s*[AP]M\s*\w+)/i;
 
 // Matches text like "$25.00 / Session" in the rendered page. Read from the
 // visible text, not the embedded data: the page's data also carries the GM's
