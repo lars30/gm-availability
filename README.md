@@ -1,7 +1,8 @@
 # GM Availability Checker
 
-Checks seat availability on your StartPlaying listings every 6 hours and
-publishes the result as a public JSON file your results page can fetch.
+Checks seat availability, schedule and price for each of your StartPlaying
+listings (one per game per day/time) every 6 hours and publishes the result
+as a public JSON file your results page can fetch.
 
 **Live at:** `https://lars30.github.io/gm-availability/availability.json`
 — this is already set up and running; the steps below are for reference
@@ -10,7 +11,8 @@ if you ever need to rebuild it or set up something similar elsewhere.
 **Consumed by:** the player-interest results page, which lives in a
 separate repo — [`square-space_landing_page`](https://bitbucket.org/larryworks/square-space_landing_page)
 (`results-page.html`, plus `results-page-preview.html` for local testing).
-It fetches the JSON this repo publishes and shows the seat counts. Any
+It fetches the JSON this repo publishes and shows each session's day/time,
+price and open seats. Any
 change to the shape of `availability.json` needs a matching change there;
 this repo only produces the data.
 
@@ -28,6 +30,8 @@ this repo only produces the data.
    .github/workflows/check-availability.yml
    docs/            (empty folder is fine — the script creates the file)
    ```
+   Optional but recommended: `test/` and `.github/workflows/test.yml` (see
+   "Tests" below).
    Easiest way: on github.com, click "Add file" → "Upload files" and drag
    all of these in, preserving the folder paths.
 
