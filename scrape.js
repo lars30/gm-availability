@@ -12,33 +12,63 @@ import { writeFile, mkdir } from 'node:fs/promises';
 // Add a new entry whenever a new campaign goes live on StartPlaying.
 // Leave a system out entirely if it has no listing yet — the results
 // page already falls back gracefully when a ref is missing.
+//
+// Each game has one StartPlaying listing per time slot (the tiles on your
+// profile page), so `sessions` is a list of listing IDs. Add an ID here when
+// you add a new day/time; the day and time are read from the page itself.
+const BASE = 'https://startplaying.games/adventure';
+const sessionUrl = (id) => `${BASE}/${id}?slug=larrydotorg`;
+
 const LISTINGS = {
   dnd2024: {
     title: 'The Keep on the Cauldronlands',
-    url: 'https://startplaying.games/adventure/cmqpuqj2w001dl8040nqe24ow?slug=larrydotorg'
+    sessions: [
+      'cmvbjy5zf003zl108nxzw7min', // Sat
+      'cmqpuqj2w001dl8040nqe24ow', // Mon
+      'cmvbjmqt20033jw08eoahfb4o', // Tue
+      'cmvbjq06s004mle0806j0s159', // Wed
+      'cmvbjsyp4003eju07edxkwwhy', // Thu
+      'cmvbjv0ua004pla0878kvh8jt'  // Fri
+    ]
   },
   lotr: {
     title: 'Suspicious Mines',
-    url: 'https://startplaying.games/adventure/cmqpunbf30019lc04evv2i9i6?slug=larrydotorg'
+    sessions: [
+      'cmvbmtz08002fl508opfapax0', // Sun
+      'cmqpunbf30019lc04evv2i9i6', // Tue
+      'cmvbmrgjk012bjy075n44coqc'  // Thu
+    ]
   },
   pirateborg: {
     title: 'Ash and Anchors',
-    url: 'https://startplaying.games/adventure/cmtaodf77003ijr04iqe7yoyy?slug=larrydotorg'
+    sessions: [
+      'cmvbogn9400val6078skpn98t', // Sat
+      'cmtaodf77003ijr04iqe7yoyy', // Mon
+      'cmvbof5mo00sml607a616ntk7'  // Wed
+    ]
   }
 };
 
 // Matches text like "2 / 5 Seats Filled" in the rendered page.
 const SEATS_PATTERN = /(\d+)\s*\/\s*(\d+)\s*Seats Filled/i;
 
-async function scrapeListing(ref, config) {
+// Matches text like "Weekly / Monday - 5:00 PM UTC" in the rendered page.
+const SCHEDULE_PATTERN = /((?:Weekly|Biweekly|Monthly)\s*\/\s*\w+day\s*-\s*\d{1,2}:\d{2}\s*[AP]M\s*\w+)/i;
+
+// Next occurrence as an ISO timestamp, from the page's embedded data.
+const NEXT_DATE_PATTERN = /"scheduledDate":"([^"]+)"/;
+
+async function scrapeSession(id) {
+  const url = sessionUrl(id);
+  const base = { id, url };
   try {
-    const res = await fetch(config.url, {
+    const res = await fetch(url, {
       headers: { 'User-Agent': 'Mozilla/5.0 (availability-check-bot)' }
     });
 
     if (!res.ok) {
-      console.warn(`[${ref}] fetch failed: HTTP ${res.status}`);
-      return { ref, ...config, seatsFilled: null, seatsTotal: null, hasOpenSeats: null, error: `HTTP ${res.status}` };
+      console.warn(`[${id}] fetch failed: HTTP ${res.status}`);
+      return { ...base, schedule: null, nextDate: null, seatsFilled: null, seatsTotal: null, hasOpenSeats: null, error: `HTTP ${res.status}` };
     }
 
     const html = await res.text();
@@ -49,34 +79,59 @@ async function scrapeListing(ref, config) {
     const match = plainText.match(SEATS_PATTERN);
 
     if (!match) {
-      console.warn(`[${ref}] could not find seat count in page — StartPlaying may have changed their markup`);
-      return { ref, ...config, seatsFilled: null, seatsTotal: null, hasOpenSeats: null, error: 'pattern not found' };
+      console.warn(`[${id}] could not find seat count in page — StartPlaying may have changed their markup`);
+      return { ...base, schedule: null, nextDate: null, seatsFilled: null, seatsTotal: null, hasOpenSeats: null, error: 'pattern not found' };
     }
 
     const seatsFilled = parseInt(match[1], 10);
     const seatsTotal = parseInt(match[2], 10);
+    const schedule = plainText.match(SCHEDULE_PATTERN)?.[1] ?? null;
+    const nextDate = html.match(NEXT_DATE_PATTERN)?.[1] ?? null;
 
     return {
-      ref,
-      ...config,
+      ...base,
+      schedule,
+      nextDate,
       seatsFilled,
       seatsTotal,
       hasOpenSeats: seatsFilled < seatsTotal
     };
   } catch (err) {
-    console.warn(`[${ref}] error: ${err.message}`);
-    return { ref, ...config, seatsFilled: null, seatsTotal: null, hasOpenSeats: null, error: err.message };
+    console.warn(`[${id}] error: ${err.message}`);
+    return { ...base, schedule: null, nextDate: null, seatsFilled: null, seatsTotal: null, hasOpenSeats: null, error: err.message };
   }
+}
+
+async function scrapeListing(ref, config) {
+  const sessions = [];
+  for (const id of config.sessions) {
+    sessions.push(await scrapeSession(id));
+    // Be polite — small delay between requests
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+  }
+
+  // `url`, `seatsFilled` and `seatsTotal` describe the first session, so
+  // anything reading the old one-listing-per-game shape keeps working.
+  // `hasOpenSeats` is true if ANY session has room.
+  const [first] = sessions;
+  const parsed = sessions.filter((s) => !s.error);
+  return {
+    ref,
+    title: config.title,
+    url: first.url,
+    seatsFilled: first.seatsFilled,
+    seatsTotal: first.seatsTotal,
+    hasOpenSeats: parsed.length ? parsed.some((s) => s.hasOpenSeats) : null,
+    sessions
+  };
 }
 
 async function main() {
   const results = {};
 
   for (const [ref, config] of Object.entries(LISTINGS)) {
-    console.log(`Checking ${ref}: ${config.title}...`);
+    console.log(`Checking ${ref}: ${config.title} (${config.sessions.length} sessions)...`);
     results[ref] = await scrapeListing(ref, config);
-    // Be polite — small delay between requests
-    await new Promise((resolve) => setTimeout(resolve, 1000));
   }
 
   const output = {
@@ -95,10 +150,12 @@ async function main() {
   // parse successfully — this exit code only controls whether GitHub
   // marks the run as failed, which is what triggers the email
   // notification you've already got configured on your GitHub account.
-  const failedListings = Object.values(results).filter((r) => r.error);
-  if (failedListings.length > 0) {
-    console.error(`\n${failedListings.length} listing(s) failed to parse:`);
-    failedListings.forEach((r) => console.error(`  - ${r.ref} (${r.title}): ${r.error}`));
+  const failedSessions = Object.values(results).flatMap((r) =>
+    r.sessions.filter((s) => s.error).map((s) => ({ ...s, title: r.title }))
+  );
+  if (failedSessions.length > 0) {
+    console.error(`\n${failedSessions.length} session(s) failed to parse:`);
+    failedSessions.forEach((s) => console.error(`  - ${s.id} (${s.title}): ${s.error}`));
     console.error('\nExiting with an error code so this run is marked failed and you get notified.');
     process.exitCode = 1;
   }

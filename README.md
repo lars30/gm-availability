@@ -7,6 +7,13 @@ publishes the result as a public JSON file your results page can fetch.
 — this is already set up and running; the steps below are for reference
 if you ever need to rebuild it or set up something similar elsewhere.
 
+**Consumed by:** the player-interest results page, which lives in a
+separate repo — [`square-space_landing_page`](https://bitbucket.org/larryworks/square-space_landing_page)
+(`results-page.html`, plus `results-page-preview.html` for local testing).
+It fetches the JSON this repo publishes and shows the seat counts. Any
+change to the shape of `availability.json` needs a matching change there;
+this repo only produces the data.
+
 ## One-time setup
 
 1. **Create a new GitHub repo** (public — GitHub Pages on the free tier
@@ -51,12 +58,32 @@ if you ever need to rebuild it or set up something similar elsewhere.
          "url": "https://startplaying.games/adventure/...",
          "seatsFilled": 0,
          "seatsTotal": 5,
-         "hasOpenSeats": true
+         "hasOpenSeats": true,
+         "sessions": [
+           {
+             "id": "cmqpuqj2w001dl8040nqe24ow",
+             "url": "https://startplaying.games/adventure/...",
+             "schedule": "Weekly / Monday - 9:00 PM UTC",
+             "nextDate": "2026-10-19T21:00:00.000Z",
+             "seatsFilled": 0,
+             "seatsTotal": 5,
+             "hasOpenSeats": true
+           }
+         ]
        },
        "lotr": { ... }
      }
    }
    ```
+
+   Each game has one StartPlaying listing per day/time, so `sessions`
+   has one entry per listing. At the game level, `hasOpenSeats` is true
+   if **any** session has room, while `url`, `seatsFilled` and
+   `seatsTotal` describe the **first** session only (kept so anything
+   written for the old one-listing-per-game shape keeps working).
+   `schedule` is as StartPlaying shows it (UTC); `nextDate` is the next
+   occurrence as an ISO timestamp, for formatting in the viewer's own
+   time zone.
 
 6. **Note this URL** — you'll need it for the results page fetch. It's:
    `https://<your-username>.github.io/<repo-name>/availability.json`
@@ -69,6 +96,19 @@ and commits the updated JSON — nothing else to maintain.
 Edit the `LISTINGS` object at the top of `scrape.js`, add the new entry,
 commit and push. The next scheduled run (or a manual "Run workflow" click)
 will pick it up.
+
+A game is an entry with a `title` and a list of `sessions`, one
+StartPlaying listing ID per day/time. The ID is the part after
+`/adventure/` in the listing URL (ignore `?slug=...`). To add a new time
+slot to an existing game, add its ID to that game's `sessions` list; the
+day and time are read from the page itself. The profile page
+(`startplaying.games/gm/larrydotorg`) can't be scraped to find new
+listings automatically because it renders in the browser, so a new
+session won't appear until its ID is added here.
+
+For a brand-new game, also add a matching entry (same ref) to
+`CAMPAIGN_HIGHLIGHTS` in the landing page repo's `results-page.html` and
+`results-page-preview.html`.
 
 ## Failure notifications
 
@@ -85,8 +125,9 @@ run is marked failed — the commit step is configured to run regardless
 (`if: always()` in the workflow file), so any listings that *did* parse
 successfully still update. Only the listings that failed keep their
 `error` field and `null` values from the last successful check, letting
-`results-page.html` fall back gracefully (it only shows a seat-count
-line when `hasOpenSeats` is an actual boolean, not `null`).
+`results-page.html` (in the landing page repo) fall back gracefully (it
+only shows seat counts when `hasOpenSeats` is an actual boolean, not
+`null`, and leaves out any session that failed).
 
 ## If the seat count stops updating
 
