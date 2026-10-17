@@ -1,0 +1,27 @@
+name: Tests
+
+# Separate from the scheduled "Check StartPlaying Availability" workflow on
+# purpose: a failing test emails you, but never stops the data from updating.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run tests
+        run: npm test

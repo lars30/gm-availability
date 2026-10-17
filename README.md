@@ -65,6 +65,7 @@ this repo only produces the data.
              "url": "https://startplaying.games/adventure/...",
              "schedule": "Weekly / Monday - 9:00 PM UTC",
              "nextDate": "2026-10-19T21:00:00.000Z",
+             "costCents": 1500,
              "seatsFilled": 0,
              "seatsTotal": 5,
              "hasOpenSeats": true
@@ -83,7 +84,10 @@ this repo only produces the data.
    written for the old one-listing-per-game shape keeps working).
    `schedule` is as StartPlaying shows it (UTC); `nextDate` is the next
    occurrence as an ISO timestamp, for formatting in the viewer's own
-   time zone.
+   time zone. `costCents` is the price per player per session in cents
+   (`2500` = $25), read from that listing's own "$X / Session" text — it
+   can differ between time slots of the same game, so it lives on the
+   session, not the game.
 
 6. **Note this URL** — you'll need it for the results page fetch. It's:
    `https://<your-username>.github.io/<repo-name>/availability.json`
@@ -110,6 +114,39 @@ For a brand-new game, also add a matching entry (same ref) to
 `CAMPAIGN_HIGHLIGHTS` in the landing page repo's `results-page.html` and
 `results-page-preview.html`.
 
+## Tests
+
+```
+npm test
+```
+
+Uses Node's built-in test runner (Node 20+, no dependencies). No network
+access — everything runs against saved HTML in `test/fixtures/`.
+
+- `test/parse.test.js` — the seat-count, schedule, next-date and cost parsing:
+  open, partly filled and full listings, numbers split across tags, and
+  the failure cases (seat text missing → "not found", schedule missing →
+  seats still parse).
+- `test/summarize.test.js` — how a game's sessions roll up: open if *any*
+  session has room, full only if *every* session is, unknown if none could
+  be read, and failed sessions ignored.
+- `test/config.test.js` — the `LISTINGS` config: titles present, no ID
+  listed twice (a pasted ID under the wrong game), IDs are bare listing IDs
+  not full URLs, and the game refs the results page looks up still exist.
+- `test/contract.test.js` — the shape of `docs/availability.json`. The
+  results page in the landing page repo reads it, so a renamed or removed
+  field fails here instead of silently breaking the campaign card.
+
+GitHub runs these on every push and pull request via
+`.github/workflows/test.yml`. It's a separate workflow from the scheduled
+availability check, so a failing test emails you but never stops the data
+from updating.
+
+**If StartPlaying changes their markup**, the live run is what notices
+(the red-X email described below). To make the tests reflect the new page,
+save a trimmed copy of a real listing into `test/fixtures/`, update the
+patterns in `scrape.js`, and make the fixtures pass again.
+
 ## Failure notifications
 
 If a listing fails to parse — StartPlaying returns an HTTP error, or
@@ -123,9 +160,9 @@ GitHub account to confirm this is turned on and set to email).
 Importantly, `docs/availability.json` still gets committed even when the
 run is marked failed — the commit step is configured to run regardless
 (`if: always()` in the workflow file), so any listings that *did* parse
-successfully still update. Only the listings that failed keep their
-`error` field and `null` values from the last successful check, letting
-`results-page.html` (in the landing page repo) fall back gracefully (it
+successfully still update. A session that failed is written with an
+`error` field and `null` seat values (not carried over from the previous
+run), letting `results-page.html` (in the landing page repo) fall back gracefully (it
 only shows seat counts when `hasOpenSeats` is an actual boolean, not
 `null`, and leaves out any session that failed).
 

@@ -4,6 +4,7 @@
   "type": "module",
   "description": "Scheduled scraper that checks StartPlaying seat availability for Off the Map Games listings",
   "scripts": {
-    "check": "node scrape.js"
+    "check": "node scrape.js",
+    "test": "node --test"
   }
 }
