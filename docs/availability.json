@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-24T18:03:55.087Z",
+  "generatedAt": "2026-10-25T00:09:11.640Z",
   "listings": {
     "dnd2024": {
       "ref": "dnd2024",
@@ -13,7 +13,7 @@
           "id": "cmvbjy5zf003zl108nxzw7min",
           "url": "https://startplaying.games/adventure/cmvbjy5zf003zl108nxzw7min?slug=larrydotorg",
           "schedule": "Bi-weekly / Saturday - 7:00 PM UTC",
-          "nextDate": "2026-10-24T19:00:00.000Z",
+          "nextDate": "2026-10-31T19:00:00.000Z",
           "costCents": 1500,
           "seatsFilled": 0,
           "seatsTotal": 6,
@@ -123,7 +123,7 @@
           "id": "cmvbogn9400val6078skpn98t",
           "url": "https://startplaying.games/adventure/cmvbogn9400val6078skpn98t?slug=larrydotorg",
           "schedule": "Bi-weekly / Saturday - 7:00 PM UTC",
-          "nextDate": "2026-10-24T19:00:00.000Z",
+          "nextDate": "2026-10-31T19:00:00.000Z",
           "costCents": 2500,
           "seatsFilled": 0,
           "seatsTotal": 6,
