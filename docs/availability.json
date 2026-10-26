@@ -1,72 +1,52 @@
 {
-  "generatedAt": "2026-10-26T18:05:25.223Z",
+  "generatedAt": "2026-10-26T21:43:47.655Z",
   "listings": {
     "dnd2024": {
       "ref": "dnd2024",
       "title": "The Keep on the Cauldronlands",
-      "url": "https://startplaying.games/adventure/cmvbjy5zf003zl108nxzw7min?slug=larrydotorg",
+      "url": "https://rolecall.games/games/larrydotorg/the-keep-on-the-cauldronlands-remote",
+      "format": "online",
+      "venue": null,
       "seatsFilled": 0,
+      "seatsTotal": 3,
+      "hasOpenSeats": true,
+      "sessions": [
+        {
+          "id": "the-keep-on-the-cauldronlands-remote",
+          "url": "https://rolecall.games/games/larrydotorg/the-keep-on-the-cauldronlands-remote",
+          "format": "online",
+          "venue": null,
+          "schedule": "Mon, Tue, Wed, Thu, Fri or Sat, 2:00–5:00 PM MST",
+          "nextDate": null,
+          "costCents": 3000,
+          "seatsFilled": 0,
+          "seatsTotal": 3,
+          "needsMore": null,
+          "hasOpenSeats": true
+        }
+      ]
+    },
+    "dnd2024inperson": {
+      "ref": "dnd2024inperson",
+      "title": "The Keep on the Cauldronlands (In Person)",
+      "url": "https://rolecall.games/games/larrydotorg/the-keep-on-the-cauldronlands",
+      "format": "in_person",
+      "venue": "Fate Brewing Midtown Phx",
+      "seatsFilled": 1,
       "seatsTotal": 6,
       "hasOpenSeats": true,
       "sessions": [
         {
-          "id": "cmvbjy5zf003zl108nxzw7min",
-          "url": "https://startplaying.games/adventure/cmvbjy5zf003zl108nxzw7min?slug=larrydotorg",
-          "schedule": "Bi-weekly / Saturday - 7:00 PM UTC",
-          "nextDate": "2026-10-31T19:00:00.000Z",
-          "costCents": 1500,
-          "seatsFilled": 0,
+          "id": "the-keep-on-the-cauldronlands",
+          "url": "https://rolecall.games/games/larrydotorg/the-keep-on-the-cauldronlands",
+          "format": "in_person",
+          "venue": "Fate Brewing Midtown Phx",
+          "schedule": "Tuesdays 6:00–9:30 PM MST",
+          "nextDate": null,
+          "costCents": 4000,
+          "seatsFilled": 1,
           "seatsTotal": 6,
-          "hasOpenSeats": true
-        },
-        {
-          "id": "cmqpuqj2w001dl8040nqe24ow",
-          "url": "https://startplaying.games/adventure/cmqpuqj2w001dl8040nqe24ow?slug=larrydotorg",
-          "schedule": "Weekly / Monday - 9:00 PM UTC",
-          "nextDate": "2026-10-26T21:00:00.000Z",
-          "costCents": 1500,
-          "seatsFilled": 0,
-          "seatsTotal": 5,
-          "hasOpenSeats": true
-        },
-        {
-          "id": "cmvbjmqt20033jw08eoahfb4o",
-          "url": "https://startplaying.games/adventure/cmvbjmqt20033jw08eoahfb4o?slug=larrydotorg",
-          "schedule": "Weekly / Tuesday - 9:00 PM UTC",
-          "nextDate": "2026-10-27T21:00:00.000Z",
-          "costCents": 1500,
-          "seatsFilled": 0,
-          "seatsTotal": 6,
-          "hasOpenSeats": true
-        },
-        {
-          "id": "cmvbjq06s004mle0806j0s159",
-          "url": "https://startplaying.games/adventure/cmvbjq06s004mle0806j0s159?slug=larrydotorg",
-          "schedule": "Weekly / Wednesday - 9:00 PM UTC",
-          "nextDate": "2026-10-28T21:00:00.000Z",
-          "costCents": 1500,
-          "seatsFilled": 0,
-          "seatsTotal": 6,
-          "hasOpenSeats": true
-        },
-        {
-          "id": "cmvbjsyp4003eju07edxkwwhy",
-          "url": "https://startplaying.games/adventure/cmvbjsyp4003eju07edxkwwhy?slug=larrydotorg",
-          "schedule": "Weekly / Thursday - 9:00 PM UTC",
-          "nextDate": "2026-10-29T21:00:00.000Z",
-          "costCents": 1500,
-          "seatsFilled": 0,
-          "seatsTotal": 6,
-          "hasOpenSeats": true
-        },
-        {
-          "id": "cmvbjv0ua004pla0878kvh8jt",
-          "url": "https://startplaying.games/adventure/cmvbjv0ua004pla0878kvh8jt?slug=larrydotorg",
-          "schedule": "Bi-weekly / Friday - 11:00 PM UTC",
-          "nextDate": "2026-10-30T23:00:00.000Z",
-          "costCents": 3500,
-          "seatsFilled": 0,
-          "seatsTotal": 6,
+          "needsMore": 2,
           "hasOpenSeats": true
         }
       ]
@@ -74,39 +54,24 @@
     "lotr": {
       "ref": "lotr",
       "title": "Suspicious Mines",
-      "url": "https://startplaying.games/adventure/cmvbmtz08002fl508opfapax0?slug=larrydotorg",
+      "url": "https://rolecall.games/games/larrydotorg/suspicious-mines",
+      "format": "online",
+      "venue": null,
       "seatsFilled": 0,
       "seatsTotal": 6,
       "hasOpenSeats": true,
       "sessions": [
         {
-          "id": "cmvbmtz08002fl508opfapax0",
-          "url": "https://startplaying.games/adventure/cmvbmtz08002fl508opfapax0?slug=larrydotorg",
-          "schedule": "Weekly / Sunday - 11:00 PM UTC",
-          "nextDate": "2026-11-01T23:00:00.000Z",
-          "costCents": 2500,
+          "id": "suspicious-mines",
+          "url": "https://rolecall.games/games/larrydotorg/suspicious-mines",
+          "format": "online",
+          "venue": null,
+          "schedule": "Tue, Thu or Sun, 10:00 AM–1:00 PM MST",
+          "nextDate": null,
+          "costCents": 3500,
           "seatsFilled": 0,
           "seatsTotal": 6,
-          "hasOpenSeats": true
-        },
-        {
-          "id": "cmqpunbf30019lc04evv2i9i6",
-          "url": "https://startplaying.games/adventure/cmqpunbf30019lc04evv2i9i6?slug=larrydotorg",
-          "schedule": "Weekly / Tuesday - 5:00 PM UTC",
-          "nextDate": "2026-10-27T17:00:00.000Z",
-          "costCents": 1500,
-          "seatsFilled": 2,
-          "seatsTotal": 6,
-          "hasOpenSeats": true
-        },
-        {
-          "id": "cmvbmrgjk012bjy075n44coqc",
-          "url": "https://startplaying.games/adventure/cmvbmrgjk012bjy075n44coqc?slug=larrydotorg",
-          "schedule": "Weekly / Thursday - 5:00 PM UTC",
-          "nextDate": "2026-10-29T17:00:00.000Z",
-          "costCents": 2500,
-          "seatsFilled": 0,
-          "seatsTotal": 6,
+          "needsMore": null,
           "hasOpenSeats": true
         }
       ]
@@ -114,39 +79,24 @@
     "pirateborg": {
       "ref": "pirateborg",
       "title": "Ash and Anchors",
-      "url": "https://startplaying.games/adventure/cmvbogn9400val6078skpn98t?slug=larrydotorg",
+      "url": "https://rolecall.games/games/larrydotorg/ash-and-anchors",
+      "format": "online",
+      "venue": null,
       "seatsFilled": 0,
       "seatsTotal": 6,
       "hasOpenSeats": true,
       "sessions": [
         {
-          "id": "cmvbogn9400val6078skpn98t",
-          "url": "https://startplaying.games/adventure/cmvbogn9400val6078skpn98t?slug=larrydotorg",
-          "schedule": "Bi-weekly / Saturday - 7:00 PM UTC",
-          "nextDate": "2026-10-31T19:00:00.000Z",
+          "id": "ash-and-anchors",
+          "url": "https://rolecall.games/games/larrydotorg/ash-and-anchors",
+          "format": "online",
+          "venue": null,
+          "schedule": "Mon, Wed or Sat, 10:00 AM–1:00 PM MST",
+          "nextDate": null,
           "costCents": 2500,
           "seatsFilled": 0,
           "seatsTotal": 6,
-          "hasOpenSeats": true
-        },
-        {
-          "id": "cmtaodf77003ijr04iqe7yoyy",
-          "url": "https://startplaying.games/adventure/cmtaodf77003ijr04iqe7yoyy?slug=larrydotorg",
-          "schedule": "Weekly / Monday - 5:00 PM UTC",
-          "nextDate": "2026-11-02T17:00:00.000Z",
-          "costCents": 1500,
-          "seatsFilled": 0,
-          "seatsTotal": 6,
-          "hasOpenSeats": true
-        },
-        {
-          "id": "cmvbof5mo00sml607a616ntk7",
-          "url": "https://startplaying.games/adventure/cmvbof5mo00sml607a616ntk7?slug=larrydotorg",
-          "schedule": "Weekly / Wednesday - 5:00 PM UTC",
-          "nextDate": "2026-10-28T17:00:00.000Z",
-          "costCents": 1500,
-          "seatsFilled": 0,
-          "seatsTotal": 4,
+          "needsMore": null,
           "hasOpenSeats": true
         }
       ]

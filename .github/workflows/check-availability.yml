@@ -1,4 +1,4 @@
-name: Check StartPlaying Availability
+name: Check RoleCall Availability
 
 on:
   # Runs automatically every 6 hours

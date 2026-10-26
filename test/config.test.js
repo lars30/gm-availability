@@ -1,42 +1,38 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { LISTINGS, sessionUrl } from '../scrape.js';
+import { LISTINGS, gameUrl } from '../scrape.js';
 
-test('every game has a title and at least one session', () => {
+test('every game has a title and a slug', () => {
   for (const [ref, game] of Object.entries(LISTINGS)) {
     assert.ok(game.title, `${ref} needs a title`);
-    assert.ok(Array.isArray(game.sessions) && game.sessions.length > 0, `${ref} needs sessions`);
+    assert.ok(game.slug, `${ref} needs a slug`);
   }
 });
 
-// A pasted ID landing under the wrong game, or twice, would show wrong or
-// duplicate times on the results page.
-test('no session ID appears twice, within or across games', () => {
+// A slug pasted under the wrong game, or twice, would show wrong or
+// duplicate data on the results page.
+test('no slug appears twice', () => {
   const seen = new Map();
   for (const [ref, game] of Object.entries(LISTINGS)) {
-    for (const id of game.sessions) {
-      assert.ok(!seen.has(id), `${id} is in both "${seen.get(id)}" and "${ref}"`);
-      seen.set(id, ref);
-    }
+    assert.ok(!seen.has(game.slug), `${game.slug} is in both "${seen.get(game.slug)}" and "${ref}"`);
+    seen.set(game.slug, ref);
   }
 });
 
-test('session IDs look like StartPlaying IDs (catches a pasted full URL or stray space)', () => {
+test('slugs look like RoleCall slugs (catches a pasted full URL or stray space)', () => {
   for (const [ref, game] of Object.entries(LISTINGS)) {
-    for (const id of game.sessions) {
-      assert.match(id, /^c[a-z0-9]{20,}$/, `${ref}: "${id}" is not a bare listing ID`);
-    }
+    assert.match(game.slug, /^[a-z0-9]+(-[a-z0-9]+)*$/, `${ref}: "${game.slug}" is not a bare slug`);
   }
 });
 
 test('game refs match the ones the results page looks up', () => {
   // results-page.html keys CAMPAIGN_HIGHLIGHTS and availability.listings by these refs.
-  assert.deepEqual(Object.keys(LISTINGS).sort(), ['dnd2024', 'lotr', 'pirateborg']);
+  assert.deepEqual(Object.keys(LISTINGS).sort(), ['dnd2024', 'dnd2024inperson', 'lotr', 'pirateborg']);
 });
 
-test('sessionUrl builds the listing URL with the profile slug', () => {
+test('gameUrl builds the game page URL under the profile', () => {
   assert.equal(
-    sessionUrl('cabc123'),
-    'https://startplaying.games/adventure/cabc123?slug=larrydotorg'
+    gameUrl('ash-and-anchors'),
+    'https://rolecall.games/games/larrydotorg/ash-and-anchors'
   );
 });

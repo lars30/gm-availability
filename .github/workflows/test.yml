@@ -1,6 +1,6 @@
 name: Tests
 
-# Separate from the scheduled "Check StartPlaying Availability" workflow on
+# Separate from the scheduled "Check RoleCall Availability" workflow on
 # purpose: a failing test emails you, but never stops the data from updating.
 on:
   push:

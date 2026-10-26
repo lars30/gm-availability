@@ -6,8 +6,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { LISTINGS, summarizeGame, failedSession } from '../scrape.js';
 
-const GAME_FIELDS = ['ref', 'title', 'url', 'seatsFilled', 'seatsTotal', 'hasOpenSeats', 'sessions'];
-const SESSION_FIELDS = ['id', 'url', 'schedule', 'nextDate', 'costCents', 'seatsFilled', 'seatsTotal', 'hasOpenSeats'];
+const GAME_FIELDS = ['ref', 'title', 'url', 'format', 'venue', 'seatsFilled', 'seatsTotal', 'hasOpenSeats', 'sessions'];
+const SESSION_FIELDS = ['id', 'url', 'schedule', 'nextDate', 'costCents', 'needsMore', 'seatsFilled', 'seatsTotal', 'hasOpenSeats'];
 
 const published = JSON.parse(
   readFileSync(new URL('../docs/availability.json', import.meta.url), 'utf8')
@@ -59,7 +59,7 @@ test('published game-level hasOpenSeats agrees with its sessions', () => {
 test('summarizeGame output has every field the results page reads', () => {
   const session = {
     id: 'a', url: 'u', schedule: 's', nextDate: 'd', costCents: 1500,
-    seatsFilled: 1, seatsTotal: 6, hasOpenSeats: true
+    needsMore: null, seatsFilled: 1, seatsTotal: 6, hasOpenSeats: true
   };
   const game = summarizeGame('g', { title: 'T' }, [session, failedSession({ id: 'b', url: 'u2' }, 'x')]);
   assertHasFields(game, GAME_FIELDS, 'game');
