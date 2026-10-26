@@ -46,6 +46,21 @@ test('published sessions are either fully parsed or marked with an error', () =>
   }
 });
 
+test('published format is online or in_person, and only in-person games have a venue', () => {
+  for (const game of Object.values(published.listings)) {
+    if (game.sessions.some((s) => s.error)) continue;
+    assert.ok(['online', 'in_person'].includes(game.format), `${game.ref} format is "${game.format}"`);
+    if (game.format === 'online') assert.equal(game.venue, null, `${game.ref} is online but has a venue`);
+    else assert.equal(typeof game.venue, 'string', `${game.ref} is in person but has no venue`);
+  }
+});
+
+test('published game URLs are RoleCall pages', () => {
+  for (const game of Object.values(published.listings)) {
+    assert.match(game.url, /^https:\/\/rolecall\.games\/games\/larrydotorg\/[a-z0-9-]+$/, `${game.ref} url`);
+  }
+});
+
 test('published game-level hasOpenSeats agrees with its sessions', () => {
   for (const game of Object.values(published.listings)) {
     const readable = game.sessions.filter((s) => !s.error);

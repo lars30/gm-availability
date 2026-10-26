@@ -131,11 +131,12 @@ export function summarizeGame(ref, config, sessions) {
   };
 }
 
-async function scrapeGame(ref, config) {
+// `fetchPage` is injectable so tests can simulate HTTP errors and outages.
+export async function scrapeGame(ref, config, fetchPage = fetch) {
   const url = gameUrl(config.slug);
   const base = { id: config.slug, url };
   try {
-    const res = await fetch(url, {
+    const res = await fetchPage(url, {
       headers: { 'User-Agent': 'Mozilla/5.0 (availability-check-bot)' }
     });
 

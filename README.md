@@ -11,8 +11,8 @@ if you ever need to rebuild it or set up something similar elsewhere.
 **Consumed by:** the player-interest results page, which lives in a
 separate repo — [`square-space_landing_page`](https://bitbucket.org/larryworks/square-space_landing_page)
 (`results-page.html`, plus `results-page-preview.html` for local testing).
-It fetches the JSON this repo publishes and shows each session's day/time,
-price and open seats. Any
+It fetches the JSON this repo publishes and shows each game's schedule,
+price and open seats (using each game's `url` as its link). Any
 change to the shape of `availability.json` needs a matching change there;
 this repo only produces the data.
 
@@ -135,6 +135,9 @@ access — everything runs against saved HTML in `test/fixtures/`.
 - `test/config.test.js` — the `LISTINGS` config: titles and slugs present,
   no slug listed twice, slugs are bare slugs not full URLs, and the game
   refs the results page looks up still exist.
+- `test/scrape.test.js` — the fetch step with a fake `fetch`: a good page,
+  an HTTP error, a page missing the Players fact, and a network error each
+  come back as the right game entry or `error`.
 - `test/contract.test.js` — the shape of `docs/availability.json`. The
   results page in the landing page repo reads it, so a renamed or removed
   field fails here instead of silently breaking the campaign card.
