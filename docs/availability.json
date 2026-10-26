@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-25T18:03:58.006Z",
+  "generatedAt": "2026-10-26T00:08:51.408Z",
   "listings": {
     "dnd2024": {
       "ref": "dnd2024",
@@ -83,7 +83,7 @@
           "id": "cmvbmtz08002fl508opfapax0",
           "url": "https://startplaying.games/adventure/cmvbmtz08002fl508opfapax0?slug=larrydotorg",
           "schedule": "Weekly / Sunday - 11:00 PM UTC",
-          "nextDate": "2026-10-25T23:00:00.000Z",
+          "nextDate": "2026-11-01T23:00:00.000Z",
           "costCents": 2500,
           "seatsFilled": 0,
           "seatsTotal": 6,
