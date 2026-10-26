@@ -1,7 +1,7 @@
 # GM Availability Checker
 
 Checks seat availability, schedule, format and price for each of your RoleCall
-games every 6 hours and publishes the result
+games every hour from 8 AM to 6 PM MST and publishes the result
 as a public JSON file your results page can fetch.
 
 **Live at:** `https://lars30.github.io/gm-availability/availability.json`
@@ -96,7 +96,7 @@ this repo only produces the data.
 6. **Note this URL** — you'll need it for the results page fetch. It's:
    `https://<your-username>.github.io/<repo-name>/availability.json`
 
-That's it. From here, GitHub runs `scrape.js` automatically every 6 hours
+That's it. From here, GitHub runs `scrape.js` automatically every hour from 8 AM to 6 PM MST
 and commits the updated JSON — nothing else to maintain.
 
 ## Adding a new game

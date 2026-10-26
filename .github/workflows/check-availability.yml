@@ -1,9 +1,10 @@
 name: Check RoleCall Availability
 
 on:
-  # Runs automatically every 6 hours
+  # Runs automatically every hour during working hours, 8 AM-6 PM MST
+  # (15:00-01:00 UTC; Arizona has no daylight saving)
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: '0 15-23,0-1 * * *'
   # Lets you trigger it manually from the Actions tab in GitHub, useful for testing
   workflow_dispatch:
 
