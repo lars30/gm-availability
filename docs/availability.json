@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T01:06:08.678Z",
+  "generatedAt": "2026-11-18T15:06:03.612Z",
   "listings": {
     "dnd2024": {
       "ref": "dnd2024",
@@ -43,7 +43,7 @@
           "venue": "Fate Brewing Midtown Phx",
           "schedule": "Tuesdays 6:00–9:30 PM MST",
           "nextDate": null,
-          "costCents": 4000,
+          "costCents": 3000,
           "seatsFilled": 1,
           "seatsTotal": 6,
           "needsMore": 2,
